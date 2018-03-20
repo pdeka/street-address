@@ -1,5 +1,5 @@
 module StreetAddress
-  class US
+  class AU
     VERSION = '2.0.0'
 
     DIRECTIONAL = {
@@ -831,7 +831,7 @@ module StreetAddress
             input[k] = input[k].split.map(&:capitalize).join(' ') if input[k]
           end
 
-          return StreetAddress::US::Address.new( input )
+          return StreetAddress::AU::Address.new( input )
         end
     end
 
@@ -869,12 +869,12 @@ module StreetAddress
 
 
       def state_fips
-        StreetAddress::US::FIPS_STATES[state]
+        StreetAddress::AU::FIPS_STATES[state]
       end
 
 
       def state_name
-        name = StreetAddress::US::STATE_NAMES[state] and name.capitalize
+        name = StreetAddress::AU::STATE_NAMES[state] and name.capitalize
       end
 
 

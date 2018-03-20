@@ -496,7 +496,7 @@ class StreetAddressUsTest < MiniTest::Test
 
   def test_address_parsing
     ADDRESSES.each_pair do |address, expected|
-      addr = StreetAddress::US.parse(address)
+      addr = StreetAddress::AU.parse(address)
       assert_equal addr.intersection?, false
       compare_expected_to_actual_hash(expected, addr.to_h, address)
     end
@@ -504,7 +504,7 @@ class StreetAddressUsTest < MiniTest::Test
 
   def test_informal_address_parsing
     INFORMAL_ADDRESSES.each_pair do |address, expected|
-      addr = StreetAddress::US.parse(address, informal: true)
+      addr = StreetAddress::AU.parse(address, informal: true)
       compare_expected_to_actual_hash(expected, addr.to_h, address)
     end
   end
@@ -512,7 +512,7 @@ class StreetAddressUsTest < MiniTest::Test
 
   def test_intersection_address_parsing
     INTERSECTIONS.each_pair do |address, expected|
-      addr = StreetAddress::US.parse(address)
+      addr = StreetAddress::AU.parse(address)
       assert_equal addr.intersection?, true
       compare_expected_to_actual_hash(expected, addr.to_h, address)
     end
@@ -521,7 +521,7 @@ class StreetAddressUsTest < MiniTest::Test
 
   def test_expected_failures
     EXPECTED_FAILURES.each do |address|
-      parsed_address = StreetAddress::US.parse(address)
+      parsed_address = StreetAddress::AU.parse(address)
       assert !parsed_address || !parsed_address.state
     end
   end
@@ -537,23 +537,23 @@ class StreetAddressUsTest < MiniTest::Test
       :postal_code => '80615',
       :street_type => nil
     }
-    parsed_address = StreetAddress::US.parse(address, avoid_redundant_street_type: true)
+    parsed_address = StreetAddress::AU.parse(address, avoid_redundant_street_type: true)
     compare_expected_to_actual_hash(expected_results, parsed_address.to_h, address)
   end
 
 
   def test_zip_plus_4_with_dash
-    addr = StreetAddress::US.parse("2730 S Veitch St, Arlington, VA 22206-3333")
+    addr = StreetAddress::AU.parse("2730 S Veitch St, Arlington, VA 22206-3333")
     assert_equal "3333", addr.postal_code_ext
   end
 
   def test_zip_plus_4_without_dash
-    addr = StreetAddress::US.parse("2730 S Veitch St, Arlington, VA 222064444")
+    addr = StreetAddress::AU.parse("2730 S Veitch St, Arlington, VA 222064444")
     assert_equal "4444", addr.postal_code_ext
   end
 
   def test_informal_parse_normal_address
-    a = StreetAddress::US.parse("2730 S Veitch St, Arlington, VA 222064444", informal: true)
+    a = StreetAddress::AU.parse("2730 S Veitch St, Arlington, VA 222064444", informal: true)
     assert_equal "2730", a.number
     assert_equal "S", a.prefix
     assert_equal "Veitch", a.street
@@ -565,7 +565,7 @@ class StreetAddressUsTest < MiniTest::Test
   end
 
   def test_informal_parse_informal_address
-    a = StreetAddress::US.parse("2730 S Veitch St", informal: true)
+    a = StreetAddress::AU.parse("2730 S Veitch St", informal: true)
     assert_equal "2730", a.number
     assert_equal "S", a.prefix
     assert_equal "Veitch", a.street
@@ -573,7 +573,7 @@ class StreetAddressUsTest < MiniTest::Test
   end
 
   def test_informal_parse_informal_address_trailing_words
-    a = StreetAddress::US.parse("2730 S Veitch St in the south of arlington", informal: true)
+    a = StreetAddress::AU.parse("2730 S Veitch St in the south of arlington", informal: true)
     assert_equal "2730", a.number
     assert_equal "S", a.prefix
     assert_equal "Veitch", a.street
@@ -581,8 +581,8 @@ class StreetAddressUsTest < MiniTest::Test
   end
 
   def test_parse
-    assert_equal StreetAddress::US.parse("&"), nil
-    assert_equal StreetAddress::US.parse(" and "), nil
+    assert_equal StreetAddress::AU.parse("&"), nil
+    assert_equal StreetAddress::AU.parse(" and "), nil
 
     parseable = [
       "1600 Pennsylvania Ave Washington DC 20006",
@@ -602,16 +602,16 @@ class StreetAddressUsTest < MiniTest::Test
     ]
 
     parseable.each do |location|
-      assert(StreetAddress::US.parse(location), location + " was not parseable")
+      assert(StreetAddress::AU.parse(location), location + " was not parseable")
     end
 
   end
 
   def test_comparison
-    addr = StreetAddress::US.parse(ADDRESSES.first[0])
+    addr = StreetAddress::AU.parse(ADDRESSES.first[0])
     assert_equal addr, "1005 Gravenstein Hwy, 95472"
-    assert_equal addr, StreetAddress::US.parse(ADDRESSES.first[0])
-    refute_equal addr, StreetAddress::US.parse(EXPECTED_FAILURES.first)
+    assert_equal addr, StreetAddress::AU.parse(ADDRESSES.first[0])
+    refute_equal addr, StreetAddress::AU.parse(EXPECTED_FAILURES.first)
     refute_equal addr, nil
   end
 
